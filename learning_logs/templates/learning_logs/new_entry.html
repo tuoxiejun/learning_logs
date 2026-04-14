@@ -1,15 +1,21 @@
 {% extends 'learning_logs/base.html' %}
+{% load django_bootstrap5 %}
 
-{% block contend %}
-<p>
-    topic: <a href="{% url 'learning_logs:topic' topic.id%}">{{topic.text}} </a>
+{% block page_header %}
+<div class="d-flex justify-content-between align-items-center">
+    <h2 class="h4 mb-0">新建条目</h2>
+    <a class="btn btn-outline-secondary rounded-pill px-3" href="{% url 'learning_logs:topic' topic.id %}">返回主题</a>
+</div>
+{% endblock page_header %}
+
+{% block content %}
+<p class="text-muted mb-3">
+    所属主题：<a href="{% url 'learning_logs:topic' topic.id %}">{{ topic.text }}</a>
 </p>
-
-<p>新增entry</p>
 <form action="{% url 'learning_logs:new_entry' topic.id%}" method="post">
     {% csrf_token %}
-    {{form.as_div}}
-    <button name="submit">提交</button>
+    {% bootstrap_form form %}
+    {% bootstrap_button button_type="submit" content="保存条目" button_class="btn btn-primary rounded-pill px-4" %}
 </form>
 
-{% endblock contend %}
+{% endblock content %}

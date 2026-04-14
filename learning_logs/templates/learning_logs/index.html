@@ -1,5 +1,50 @@
 {% extends 'learning_logs/base.html' %}
 
-{% block contend %}
-<p> this is learning logs's index </p>
-{% endblock contend %}
+{% block page_header %}
+<div class="p-4 p-md-5 rounded-4 shadow-sm border" style="background: linear-gradient(135deg, #1e293b 0%, #312e81 100%);">
+  <div class="row align-items-center g-4">
+    <div class="col-lg-8 text-white">
+      <span class="badge rounded-pill text-bg-light mb-3">个人知识工作台</span>
+      <h1 class="display-5 fw-bold">记录每天的学习成长</h1>
+      <p class="lead mb-4 text-white-50">
+        创建主题，沉淀简洁笔记，逐步建立可检索的个人学习档案。
+      </p>
+      {% if user.is_authenticated %}
+        <a class="btn btn-primary btn-lg" href="{% url 'learning_logs:topics' %}">查看我的主题</a>
+      {% else %}
+        <a class="btn btn-primary btn-lg me-2" href="{% url 'accounts:register' %}">创建账号</a>
+        <a class="btn btn-outline-light btn-lg" href="{% url 'accounts:login' %}">登录</a>
+      {% endif %}
+    </div>
+    <div class="col-lg-4">
+      <div class="bg-white rounded-4 p-4 text-center">
+        <div class="h2 mb-1">3 步开始</div>
+        <div class="text-muted small">创建主题、添加记录、回顾成长。</div>
+      </div>
+    </div>
+  </div>
+</div>
+ {% endblock page_header %}
+
+{% block content %}
+<div class="row g-3">
+  <div class="col-md-4">
+    <div class="border rounded-4 p-3 h-100">
+      <h3 class="h6">1. 按主题整理</h3>
+      <p class="text-muted mb-0">按 Python、Django、算法或任意科目归类笔记。</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="border rounded-4 p-3 h-100">
+      <h3 class="h6">2. 持续补充条目</h3>
+      <p class="text-muted mb-0">每条内容保持简洁，方便快速回顾与复习。</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="border rounded-4 p-3 h-100">
+      <h3 class="h6">3. 定期复盘</h3>
+      <p class="text-muted mb-0">所有记录带时间戳，学习进步一目了然。</p>
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -1,8 +1,127 @@
-<p>
-    <a href="{% url 'learning_logs:index' %}"> learning log</a> -
-    <a href="{% url 'learning_logs:topics' %}"> Topics</a>
-</p>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>学习日志</title>
 
-{% block contend %}{% endblock contend %}
+    {% load django_bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <style>
+      :root {
+        --ll-bg: #f3f6ff;
+        --ll-text: #0f172a;
+        --ll-muted: #64748b;
+        --ll-primary: #4f46e5;
+      }
+      body {
+        color: var(--ll-text);
+        background:
+          radial-gradient(circle at 10% 10%, #dbeafe 0%, rgba(219, 234, 254, 0) 28%),
+          radial-gradient(circle at 90% 5%, #e9d5ff 0%, rgba(233, 213, 255, 0) 30%),
+          linear-gradient(180deg, #f8fafc 0%, var(--ll-bg) 100%);
+        min-height: 100vh;
+      }
+      .navbar-glass {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(6px);
+      }
+      .brand-pill {
+        border-radius: 999px;
+        padding: 0.25rem 0.85rem;
+        background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+        color: #312e81 !important;
+      }
+      .nav-link {
+        color: #334155 !important;
+      }
+      .nav-link:hover {
+        color: #111827 !important;
+      }
+      .content-card {
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        box-shadow: 0 14px 35px rgba(15, 23, 42, 0.08);
+        padding: 1.4rem;
+      }
+      .btn-primary {
+        background-color: var(--ll-primary);
+        border-color: var(--ll-primary);
+      }
+      .btn-primary:hover {
+        background-color: #4338ca;
+        border-color: #4338ca;
+      }
+      .page-header-slot {
+        margin-bottom: 1rem;
+      }
+      .footer-note {
+        color: var(--ll-muted);
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
 
+<body>
+  <nav class="navbar navbar-expand-md navbar-light navbar-glass mb-4 border-bottom shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-semibold brand-pill" href="{% url 'learning_logs:index' %}">学习日志</a>
 
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+
+        <!-- 左侧 -->
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'learning_logs:topics' %}">主题</a>
+          </li>
+        </ul>
+
+        <!-- 右侧 -->
+        <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <span class="navbar-text me-2 text-muted">你好，{{ user.username }}</span>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'accounts:register' %}">注册</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'accounts:login' %}">登录</a>
+            </li>
+          {% endif %}
+        </ul>
+
+        {% if user.is_authenticated %}
+        <form action="{% url 'accounts:logout' %}" method="post" class="ms-2">
+          {% csrf_token %}
+          <button class="btn btn-outline-danger btn-sm rounded-pill px-3">退出登录</button>
+        </form>
+        {% endif %}
+
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-2 pb-5">
+    <div class="page-header-slot">
+      {% block page_header %}{% endblock page_header %}
+    </div>
+
+    <div class="content-card">
+      {% block content %}{% endblock content %}
+    </div>
+    <div class="text-center mt-4 footer-note">
+      学习日志 - 每天进步一点点。
+    </div>
+  </main>
+
+</body>
+</html>
