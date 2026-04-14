@@ -1,5 +1,5 @@
 from django import forms
-from .models import Topic,Entiy
+from .models import Topic, Entry
 
 class TopicForm(forms.ModelForm):
     class Meta:
@@ -9,10 +9,10 @@ class TopicForm(forms.ModelForm):
 
 class EntryForm(forms.ModelForm):
     class Meta:
-        model = Entiy
+        model = Entry
         fields = ['text']
-        labels = {'text':'实体'}
-        widgets = {'text':forms.Textarea(attrs={'cols':40})}
+        labels = {'text': '内容'}
+        widgets = {'text': forms.Textarea(attrs={'rows': 6})}
     
         
 
